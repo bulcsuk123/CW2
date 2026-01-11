@@ -1,7 +1,8 @@
-import os
 from locations import locations as baseLocations
 from mobs import generateMobs
 from scripts.ascii_art import showAscii
+from combat import combat
+from mobs import mobs
 
 from copy import deepcopy
 #creates a copy of the locations data to not affect the original
@@ -23,6 +24,9 @@ class character:
         self.location = "Field"
         self.money = 0
 
+        #flag to see if tutorial is done
+        self.tutorialDone = False
+
     #displays all the characters information
     def showInfo(self):
         print(f"Name: {self.name}")
@@ -36,18 +40,38 @@ class character:
 races = ["Human", "Elf", "Orc", "Dwarf", "Goblin"]
 roles = ["Knight", "Mage", "Archer", "Cleric", "Rogue"]
 
-roleStats = {
-    #establishes the different statistics of the roles you can choose between
-    "knight": {"attack": 5, "defense": 5, "heal": 0, "speed": 2}, #block? + higher health pool
-    "mage": {"attack": 9, "defense": 2, "heal": 1, "speed": 3}, #casts shield that tanks one hit + option to charge up an attack one turn and do a big hit the next
-    "archer": {"attack": 7, "defense": 3, "heal": 0, "speed": 5}, #dodge chance 30% + extra turn at beginning (close the distance)
-    "cleric": {"attack": 2, "defense": 4, "heal": 6, "speed": 3}, #self-heal on turn
-    "rogue": {"attack": 6, "defense": 4, "heal": 0, "speed": 5}, #two actions per turn (50% chance)
-}
-
 #a simple function to clear the console
 def clearScreen():
     print("\n" * 50)
+
+def pause():
+    input("\nPress enter to continue...")
+
+def showTutorial(player):
+    clearScreen()
+    print("=== Tutorial: Combat Basics ===\n")
+    print("Combat starts automatically when you enter a room with enemies.\n")
+
+    print("1) Attacking")
+    print("- Your damage is based on your class and the luck of the dice.")
+    print("- Each attack rolls random numbers, then your class attack stat is added.\n")
+
+    print("2) Defending")
+    print("- Enemies also roll for damage.")
+    print("- Your defense stat reduces the damage you take (also roll-based).\n")
+
+    print("3) Actions")
+    print("- On your turn you can: attack, use an item, or attempt to flee.")
+    print("- Using an item may still allow an attack if your Speed is high enough.\n")
+
+    print("4) Fleeing")
+    print("- Flee chance depends on your Speed compared to the enemy.")
+    print("- If you flee successfully, you return to the room you came from.\n")
+
+    print(f"Your class: {player.role.capitalize()}")
+    print("Good luck!\n")
+
+    input("Press Enter to begin the tutorial fight...")
 
 #runs at the beginning to create the character
 def createCharacter():
@@ -136,8 +160,11 @@ def playGame(player, locations):
 
     #message to start the adventure
     print(f"\nWelcome, {player.name}! You begin in the {player.location}...\n")
+    print("Loading...")
+    pause()
 
     lastLocation = None
+    previousLocation = None
 
     commands = ["north", "south", "east", "west", "inventory", "help", "quit"]
 
@@ -145,11 +172,17 @@ def playGame(player, locations):
 
         #gets the players location
         current = locations[player.location]
+        enteredNewLocation = (player.location != lastLocation)
 
-        if player.location != lastLocation:
+
+        if enteredNewLocation:
             clearScreen()
             showAscii(player.location)
             lastLocation = player.location
+
+            if player.location == "Field" and not getattr(player, "tutorialDone", False):
+                showTutorial(player)
+                player.tutorialDone = True
 
         #prints the current location and the description given with it
         print(f"\n== {player.location} ==")
@@ -202,6 +235,46 @@ def playGame(player, locations):
                     print(f"- {mob.capitalize()} x{count}")
                     #prints out all the enemies in the area in a list through a for loop
 
+        #starts combat only on room entry
+        if enteredNewLocation and current.get("mobs") and len(current["mobs"]) > 0:
+            # fight one enemy at a time until clear, flee, or death
+            while current.get("mobs") and len(current["mobs"]) > 0:
+                enemyName = current["mobs"][0]
+                outcome = combat(player, enemyName, mobs)  # returns dict
+
+                if outcome["result"] == "won":
+                    # remove defeated enemy
+                    current["mobs"].pop(0)
+
+                    # add money for killed enemy
+                    player.money += outcome["money"]
+                    print(f"You gained {outcome['money']} coins")
+                    print(f"Total coins: {player.money}")
+
+                    # room clear reward
+                    if len(current["mobs"]) == 0:
+                        roomItem = current.get("item", "")
+                        if roomItem:
+                            player.inventory.append(roomItem)
+                            print(f"You found: {roomItem}")
+                            current["item"] = ""
+
+                        pause()  # pause so player can read rewards
+
+                    continue
+
+                if outcome["result"] == "fled":
+                    if previousLocation is not None:
+                        print(f"You flee back to {previousLocation}!")
+                        player.location = previousLocation
+                    else:
+                        print("You have nowhere to flee to!")
+                    break
+
+                if outcome["result"] == "dead":
+                    print("Game Over!")
+                    return
+
         #asks the user for a command and then compares it with the list of commands to make sure its valid
         cmd = input("\nEnter command: (North, South, East, West, Inventory, Help, Quit): ").strip().lower()
         while cmd not in commands:
@@ -209,6 +282,7 @@ def playGame(player, locations):
 
         #handles all non-movement commands
         if cmd == "inventory":
+            print(f"Coins: {player.money}")
             if player.inventory:
                 print("You are carrying:")
                 for item in player.inventory:
@@ -234,6 +308,9 @@ def playGame(player, locations):
 
         #stores where the player wants to go next
         exitData = current[cmd]
+        oldLocation = player.location
+
+        #tracks if movement happened for combat
 
         if isinstance(exitData, dict):
             if exitData.get("locked"):
@@ -244,15 +321,18 @@ def playGame(player, locations):
                     print(f"\nYou unlock the path using the {needed_key}")
                     exitData["locked"] = False
                     player.location = exitData["destination"]
+                    previousLocation = oldLocation
                     #if so the way is unlocked and a message is printed before taking you to the next location
                 else:
                     print("The way is locked. You need a key")
-                    #otherwise it tells you a key is needed (stay put)
+                    #otherwise it tells you a key is needed (staying put)
             else:
                 player.location = exitData["destination"]
+                previousLocation = oldLocation
                 #if it is not locked sends the player to the desired destination
         else:
             player.location = exitData
+            previousLocation = oldLocation
             #normal exits are just destination strings
 
 #creates the player character

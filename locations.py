@@ -21,7 +21,7 @@ locations = {
         "description": "A gloomy and perilous woodland, be careful of those who lurk here",
         "north": "Castle Entrance",
         "south": "Village",
-        "item": "Rusty Helmet",
+        "item": "Health Potion",
         "spawn": {
             "cap": 3,
             "types": ["Treant", "Hobgoblin"]
