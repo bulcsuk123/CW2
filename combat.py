@@ -1,12 +1,20 @@
 import random
+from scripts.ascii_art import showAscii
+import time
 
 roleStats = {
     #establishes the different statistics of the roles you can choose between
-    "knight": {"attack": 5, "defense": 5, "heal": 0, "speed": 2}, #block? + higher health pool
-    "mage": {"attack": 9, "defense": 2, "heal": 1, "speed": 3}, #casts shield that tanks one hit + option to charge up an attack one turn and do a big hit the next
-    "archer": {"attack": 7, "defense": 3, "heal": 0, "speed": 5}, #dodge chance 30% + extra turn at beginning (close the distance)
-    "cleric": {"attack": 2, "defense": 4, "heal": 6, "speed": 3}, #self-heal on turn
-    "rogue": {"attack": 6, "defense": 4, "heal": 0, "speed": 5}, #two actions per turn (50% chance)
+    "knight": {"attack": 6, "defense": 6,"speed": 2},
+    "mage": {"attack": 9, "defense": 2, "speed": 3},
+    "archer": {"attack": 7, "defense": 3,  "speed": 4},
+    "rogue": {"attack": 6, "defense": 4, "speed": 4},
+}
+
+raceStats = {
+    "human": {"attack": 2, "defense": 0, "speed": 2},
+    "elf": {"attack": 2,"defense": 0,"speed": 2},
+    "orc": {"attack": 1,"defense": 3,"speed": 0},
+    "dwarf": {"attack": 3,"defense": 1,"speed": 0},
 }
 
 maxHp = 125
@@ -29,13 +37,12 @@ def resolveDmg(attRoll : int, defRoll : int) -> int:
     dmg = attRoll - (defRoll // 2)
     return max(1, dmg)
 
-def doubleAction(speed : int) -> int:
+def doubleAction(speed: int) -> bool:
     if speed >= 5:
         return True
     if speed >= 3:
         return random.random() < 0.25
-
-    return random.random() < 0.25
+    return random.random() < 0.10
 
 def fleeSuccess(playerSpeed : int, mobSpeed : int) -> tuple[bool, int]:
     #base flee chance of 30% which is then modified by speed difference of mob and player
@@ -43,28 +50,33 @@ def fleeSuccess(playerSpeed : int, mobSpeed : int) -> tuple[bool, int]:
     chance = clamp(chance, 0.05, 0.85)
     return (random.random() < chance), int(chance * 100)
 
+def usableItem(itemName : str) -> bool:
+    return itemName in itemEffects
+
 def chooseItem(player):
-    if not player.inventory:
-        print("You have no items to use!")
+    usable = [item for item in player.inventory if usableItem(item)]
+
+    if not usable:
+        print("You have no usable items (like potions)")
         return None
 
-    print("\nInventory:")
-    for i, item in enumerate(player.inventory, start = 1):
+    print("\nUsable items:")
+    for i, item in enumerate(usable, start=1):
         print(f"{i}. {item}")
 
-    choice = input("Choose an item: (number or 'back')").strip().lower()
+    choice = input("Choose and item (number or 'back'): ").strip().lower()
     if choice == "back":
         return None
     if not choice.isdigit():
-        print("You have to choose a number!")
+        print("Invalid choice")
         return None
 
     idx = int(choice) - 1
-    if idx < 0 or idx >= len(player.inventory):
-        print("Invalid choice!")
+    if idx < 0 or idx >= len(usable):
+        print("Invalid choice")
         return None
 
-    return player.inventory[idx]
+    return usable[idx]
 
 def useItem(player, itemName : str) -> bool:
     effect = itemEffects.get(itemName)
@@ -82,10 +94,14 @@ def useItem(player, itemName : str) -> bool:
 
     return False
 
-def combat(player, mobName : str, mobsDb : dict) -> dict:
+def combat(player, mobName: str, mobsDb: dict) -> dict:
 
-    role = player.role.lower()
-    pstats = roleStats[role]
+    if not hasattr(player, "bonusAtk"):
+        player.bonusAtk = 0
+    if not hasattr(player, "bonusDef"):
+        player.bonusDef = 0
+    if not hasattr(player, "bonusHP"):
+        player.bonusHP = 0
 
     template = mobsDb[mobName]
     enemy = {
@@ -102,17 +118,38 @@ def combat(player, mobName : str, mobsDb : dict) -> dict:
     if enemy["desc"]:
         print(enemy["desc"])
 
+    #final boss monologue
+    if mobName == "Crazed Warlock":
+        print(f"A {player.race} huh? To think after all those years it was one of you who bested my right hand...")
+        print("-")
+        time.sleep(3)
+        print(f"You know I think I've heard the name {player.name} before. You're quite famous you know that?...")
+        print("The true heir to the throne some say, come to reclaim your birthright?...")
+        print("Well I guess it's only natural for you to want revenge given how I've puppeteered your ancestors corpses for years now...")
+        print("-")
+        time.sleep(3)
+        print("I wish you the best of luck in our battle but I will warn you that seeing as I no longer have guard for the castle")
+        print("I think your skills would do nicely to fill the role")
+
+    if mobName == "The Groundskeeper":
+        print(f"I haven't seen you in years {player.name}, I'm sorry that I failed to guard your history . . .")
+        time.sleep(2)
+        print("but the wheels of fate have turned too far towards the dark . . .")
+        time.sleep(2)
+        print("I'm sorry, but my will is not my own... I urge you to flee.")
+        time.sleep(2)
+
     while enemy["hp"] > 0 and player.health > 0:
-        print(f"\nYour HP: {player.health}/{maxHp}")
-        print(f"\n{enemy['name']} HP: {enemy['hp']}")
+        print(f"\nYour HP: {player.health}/{player.maxHP}")
+        print(f"{enemy['name']} HP: {enemy['hp']}")
 
-        action = input("Choose an action: (attack/item/flee)").strip().lower()
+        action = input("Choose an action: (attack/item/flee) ").strip().lower()
         while action not in ["attack", "item", "flee"]:
-            action = input("Choose an action: (attack/item/flee)").strip().lower()
+            action = input("Choose an action: (attack/item/flee) ").strip().lower()
 
-        #player's turn
+        # player's turn
         if action == "attack":
-            att = rollAttack(pstats["attack"])
+            att = rollAttack(player.baseAtk + player.bonusAtk)
             dfn = rollDefense(enemy["def"])
             dmg = resolveDmg(att, dfn)
             enemy["hp"] -= dmg
@@ -123,9 +160,10 @@ def combat(player, mobName : str, mobsDb : dict) -> dict:
             if itemName:
                 used = useItem(player, itemName)
                 if used and enemy["hp"] > 0:
-                    if doubleAction(pstats["speed"]):
+                    # use TOTAL player speed (class + race)
+                    if doubleAction(player.baseSpeed):
                         print("You are quick enough to attack after using the item!")
-                        att = rollAttack(pstats["attack"])
+                        att = rollAttack(player.baseAtk + player.bonusAtk)
                         dfn = rollDefense(enemy["def"])
                         dmg = resolveDmg(att, dfn)
                         enemy["hp"] -= dmg
@@ -134,9 +172,15 @@ def combat(player, mobName : str, mobsDb : dict) -> dict:
                         print("You don't have enough time to attack after using the item!")
 
         elif action == "flee":
-            success, pct = fleeSuccess(pstats["speed"], enemy["speed"])
+            if mobName == "Crazed Warlock":
+                print(f"\n{enemy['name']} raises a hand and the doors slam shut...")
+                print("A crushing pressure grips your chest—you cannot flee!")
+                continue
+
+            # use TOTAL player speed (class + race)
+            success, pct = fleeSuccess(player.baseSpeed, enemy["speed"])
             if success:
-                print(f"You escaped! (Chance was ~{pct})%")
+                print(f"You escaped! (Chance was ~{pct}%)")
                 return {"result": "fled", "money": 0}
             else:
                 print(f"You failed to escape! (Chance was ~{pct}%)")
@@ -145,12 +189,13 @@ def combat(player, mobName : str, mobsDb : dict) -> dict:
             print(f"\nYou defeated {enemy['name']}!")
             return {"result": "won", "money": enemy["money"]}
 
-        #mob turn
+        # mob turn
         mAtt = rollAttack(enemy["atk"])
-        pDef = rollDefense(pstats["defense"])
+        pDef = rollDefense(player.baseDef + player.bonusDef)
         dmgTaken = resolveDmg(mAtt, pDef)
         player.health -= dmgTaken
-        print(f"{enemy['name']} hit you for {dmgTaken} damage! (HP: {player.health}/{maxHp})")
+        print(f"{enemy['name']} hit you for {dmgTaken} damage! (HP: {player.health}/{player.maxHP})")
 
+    showAscii("Game Over")
     print("\nYou have been killed...")
     return {"result": "dead", "money": 0}

@@ -13,6 +13,7 @@ asciiMap = {
     "Castle, Ground Floor" : "castle_ground_floor.txt",
     "Castle Treasury" : "castle_treasury.txt",
     "Castle, First Floor" : "castle_first_floor.txt",
+    "Game Over" : "game_over.txt",
 }
 
 def showAscii(locationName: str) -> None:

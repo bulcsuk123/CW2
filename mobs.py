@@ -5,36 +5,40 @@ mobs = {
     "Armoured Skeleton": {
         "description": "A rattling skeleton in dented plate armour drags a rusted blade across the stone, its empty gaze fixed on you . . .",
         "health": 10,
-        "attack": 2,
-        "defense": 2,
-        "money": 2,
+        "attack": 5,
+        "defense": 4,
+        "speed": 2,
+        "money": 5,
     },
 
     #cave
     "Giant Cave Spider": {
         "description": "An eight legged horror with coarse black hair and a monstrous form, towering over children . . .",
         "health": 7,
-        "attack": 2,
+        "attack": 4,
         "defense": 4,
-        "money": 2,
+        "speed": 5,
+        "money": 5,
     },
 
     #beach
     "Siren": {
         "description": "A siren stands by the surf, her song twisting the air into something sweet and dangerous . . .",
         "health": 15,
-        "attack": 8,
+        "attack": 7,
         "defense": 4,
+        "speed": 4,
         "money": 20,
     },
 
     #beach
     "Sand Crab": {
         "description": "A small creature with a thick exoskeleton that burrows under sand waiting for the perfect moment to strike . . .",
-        "health": 2,
-        "attack": 2,
+        "health": 10,
+        "attack": 4,
         "defense": 2,
-        "money": 2,
+        "speed": 4,
+        "money": 5,
     },
 
     #forest
@@ -43,6 +47,7 @@ mobs = {
         "health": 30,
         "attack": 5,
         "defense": 5,
+        "speed": 2,
         "money": 15,
     },
 
@@ -50,8 +55,9 @@ mobs = {
     "Hobgoblin": {
         "description": "A scarred hobgoblin steps into your path with a cruel grin, gripping a chipped weapon tightly . . .",
         "health": 20,
-        "attack": 8,
-        "defense": 5,
+        "attack": 6,
+        "defense": 4,
+        "speed": 4,
         "money": 20,
     },
 
@@ -61,6 +67,7 @@ mobs = {
         "health": 2,
         "attack": 2,
         "defense": 2,
+        "speed": 2,
         "money": 2,
     },
 
@@ -70,6 +77,7 @@ mobs = {
         "health": 25,
         "attack": 5,
         "defense": 5,
+        "speed": 2,
         "money": 10,
     },
 
@@ -79,15 +87,17 @@ mobs = {
         "health": 20,
         "attack": 7,
         "defense": 3,
+        "speed": 4,
         "money": 5,
     },
 
     #castle grounds (medium bad)()
     "The Groundskeeper": {
-        "description": "The castle's groundskeeper shuffles forward with a garden tool in hand, eyes hollow and movements unnervingly calm . . .",
-        "health": 40,
+        "description": "The castle's groundskeeper shuffles forward with broadsword in hand, eyes hollow and movements unnervingly calm . . .",
+        "health": 50,
         "attack": 8,
         "defense": 7,
+        "speed": 15,
         "money": 40,
     },
 
@@ -97,6 +107,7 @@ mobs = {
         "health": 18,
         "attack": 4,
         "defense": 6,
+        "speed": 3,
         "money": 10,
     },
 
@@ -106,6 +117,7 @@ mobs = {
         "health": 15,
         "attack": 8,
         "defense": 3,
+        "speed": 6,
         "money": 10,
     },
 
@@ -115,6 +127,7 @@ mobs = {
         "health": 25,
         "attack": 6,
         "defense": 4,
+        "speed": 1,
         "money": 30,
     },
 
@@ -122,8 +135,9 @@ mobs = {
     "Crazed Warlock": {
         "description": "A tall figure waits in the shadows above, crowned in dust and silence. Its presence feels heavy—like the room itself is holding its breath . . .",
         "health": 100,
-        "attack": 10,
-        "defense": 7,
+        "attack": 20,
+        "defense": 15,
+        "speed": 50,
         "money": 100,
     },
 

@@ -4,13 +4,17 @@ locations = {
         "north": "Forest",
         "east": "Cave",
         "west": "Field",
-        "item": "Health Potion",
+        "items": [
+            "Health Potion",
+        ]
     },
 
     "Field": {
         "description": "An open grassy field stretches out before you, the wind rustling softly through tall grass",
         "east": "Village",
-        "item": "Health Potion",
+        "items": [
+            "Health Potion",
+        ],
         "spawn": {
             "cap": 1,
             "types": ["Ghoul"]
@@ -21,7 +25,10 @@ locations = {
         "description": "A gloomy and perilous woodland, be careful of those who lurk here",
         "north": "Castle Entrance",
         "south": "Village",
-        "item": "Health Potion",
+        "items": [
+            "Health Potion",
+            "Rusty Helmet",
+        ],
         "spawn": {
             "cap": 3,
             "types": ["Treant", "Hobgoblin"]
@@ -37,7 +44,9 @@ locations = {
         },
         "south": "Forest",
         "west": "Castle Grounds",
-        "item": "Health Potion",
+        "items": [
+            "Health Potion",
+        ],
         "spawn": {
             "cap": 4,
             "types": ["Undead Warrior", "Undead Archer"],
@@ -47,7 +56,9 @@ locations = {
     "Castle Grounds": {
         "description" : "A beautiful yet unkept garden, surrounded by crumbling walls",
         "east": "Castle Entrance",
-        "item": "Castle Key",
+        "items": [
+            "Castle Key",
+        ],
         "spawn": {
             "cap": 1,
             "types": ["The Groundskeeper"],
@@ -57,7 +68,9 @@ locations = {
     "Castle, First Floor": {
         "description" : "The room stand before you, a wide expanse of cracked stone bricks with vines and wear showing through, the air is filled with a still dust and the only light in the room comes from a series of cracked stained glass windows illuminating the throne in the middle and the figure that sits upon it . . .",
         "south": "Castle, Ground Floor",
-        "item": "",
+        "items": [
+            "Trophy",
+        ],
         "spawn": {
             "cap": 1,
             "types": ["Crazed Warlock"]
@@ -69,7 +82,10 @@ locations = {
         "south": "Castle Entrance",
         "north": "Castle, First Floor",
         "east": "Castle Treasury",
-        "item": "Tattered Note",
+        "items": [
+            "Health Potion",
+            "Tattered Note",
+        ],
         "spawn": {
             "cap": 5,
             "types": ["Possessed Armour", "Royal Mage"]
@@ -79,7 +95,9 @@ locations = {
     "Castle Treasury": {
         "description": "A stone chamber reinforced with iron bars and heavy doors. Several chests remain sealed, their contents unknown, and the air hums with the promise of untouched treasure",
         "west": "Castle, Ground Floor",
-        "item": "Bejewelled sword/staff/bow/daggers",
+        "items": [
+            "Rune of Enhancement",
+        ],
         "spawn": {
             "cap": 1,
             "types": ["Mimic"]
@@ -89,7 +107,9 @@ locations = {
     "Beach": {
         "description": "A sparkly sandy beach with the ocean expanding towards the horizon",
         "west": "Cave",
-        "item": "Rune of Vigor",
+        "items": [
+            "Rune of Vigor", #raise max hp by 25
+        ],
         "spawn": {
             "cap": 3,
             "types": ["Siren","Sand Crab"]
@@ -100,7 +120,10 @@ locations = {
         "description": "A dark, echoing cave carved by time, where shadows cling to cold stone.",
         "east": "Beach",
         "west": "Village",
-        "item": "Sturdy Chestplate",
+        "items": [
+            "Health Potion",
+            "Sturdy Chestplate"
+        ],
         "spawn": {
             "cap": 4,
             "types": ["Armoured Skeleton","Giant Cave Spider"]
