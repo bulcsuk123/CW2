@@ -55,7 +55,7 @@ locations = {
     },
 
     "Castle, First Floor": {
-        "description" : "",
+        "description" : "The room stand before you, a wide expanse of cracked stone bricks with vines and wear showing through, the air is filled with a still dust and the only light in the room comes from a series of cracked stained glass windows illuminating the throne in the middle and the figure that sits upon it . . .",
         "south": "Castle, Ground Floor",
         "item": "",
         "spawn": {
