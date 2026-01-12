@@ -6,11 +6,7 @@ video
 
 
 
-
-
-
-
-
+1269
 
 warlocks ruins?
 occultist
@@ -30,6 +26,28 @@ arrives in the field outside of the castle, a decant of a long line of rules of 
 royalty / heir to the throne
 used to know the groundskeeper
 
+testing:
+    character creation  ✓
+    locations  ✓
+    locations art  ✓
+    locked locations  ✓
+    movement  ✓
+    enemies  ✓
+    enemy spawning  ✓
+    items  ✓
+    commands  ✓
+    inventory  ✓
+    combat  ✓
+    winning and dying  ✓
+    race and class bonuses  ✓
+    boss voicelines  ✓
+    fleeing  ✓
+    rune of vigor....  ✓
+    scoring  ✓
+    leaderboard stuff  ✓
+    saving on quit  ✓
+    reloading  ✓
+    actually playable  ✓
 
 
 
@@ -313,25 +331,6 @@ castle entrance
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 https://adhduk.co.uk/adult-adhd-screening-survey/
 will: 26 - Moderate to strong ADHD characteristics
 huey: 29 - Strong presence of ADHD
@@ -345,12 +344,6 @@ huey: 44
 finn: 131
 bulcsu: 24
 out of 240
-
-boyfriends webtoon role assign:
-goth - will
-prep - finn
-jock - bulcsu
-nerd - huey
 
 https://manytools.org/hacker-tools/convert-images-to-ascii-art/go/
 

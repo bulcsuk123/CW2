@@ -5,7 +5,6 @@ from combat import combat, useItem, chooseItem, roleStats, raceStats
 from mobs import mobs
 from scores import recordScore, showLeaderboard
 from save_load import saveGame, saveExists, loadGame, deleteSave
-
 from copy import deepcopy
 #creates a copy of the locations data to not affect the original
 
@@ -198,6 +197,7 @@ def createCharacter():
         print("Welcome to the game!")
         print("Character Creation:")
         print("===================")
+        print("Race and class bonuses apply so choose carefully!")
 
         #asks the user for a name and checks that its valid
         while True:
