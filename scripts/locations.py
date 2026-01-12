@@ -84,7 +84,6 @@ locations = {
         "east": "Castle Treasury",
         "items": [
             "Health Potion",
-            "Tattered Note",
         ],
         "spawn": {
             "cap": 5,

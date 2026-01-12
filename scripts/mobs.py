@@ -154,6 +154,7 @@ def generateMobs(spawnRules):
     total = random.randint(1, cap)
     #sets the amount of enemies that will spawn between 1 and the given cap
 
+    #adds the correct amount of randomised mobs to the area
     mobs = []
     for i in range(total):
         mobs.append(random.choice(types))

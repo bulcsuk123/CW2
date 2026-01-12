@@ -1,7 +1,10 @@
 import os
 
-asciiFolder = os.path.join("resources", "ascii")
+#gets the folder for the ascii
+baseDir = os.path.dirname(os.path.dirname(__file__))
+asciiFolder = os.path.join(baseDir, "resources", "ascii")
 
+#applies each ascii image to each location
 asciiMap = {
     "Field" : "field.txt",
     "Village" : "village.txt",
@@ -16,13 +19,16 @@ asciiMap = {
     "Game Over" : "game_over.txt",
 }
 
+#shows the corresponding ascii, otherwise does nothing
 def showAscii(locationName: str) -> None:
     filename = asciiMap.get(locationName)
     if not filename:
         return
 
+    #sets the file path
     path = os.path.join(asciiFolder, filename)
 
+    #trys to open the file, if not returns to the program
     try:
         with open(path, "r", encoding="utf-8") as f:
             print(f.read())

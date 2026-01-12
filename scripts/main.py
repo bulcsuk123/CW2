@@ -1,6 +1,6 @@
 from locations import locations as baseLocations
 from mobs import generateMobs
-from scripts.ascii_art import showAscii
+from ascii_art import showAscii
 from combat import combat, useItem, chooseItem, roleStats, raceStats
 from mobs import mobs
 from scores import recordScore, showLeaderboard
@@ -418,12 +418,14 @@ def playGame(player, locations):
                     print(f"You gained {outcome['money']} coins")
                     print(f"Total coins: {player.money}")
 
-                    
+                    #if the boss is defeated it displays the victory message
                     if defeated == bossName:
                         print("\n=== VICTORY ===")
-                        print("The Crazed Warlock falls. The castle goes silent at long last.")
+                        print("The Crazed Warlock falls... The castle goes silent at long last.")
+                        showAscii("win")
                         pause()
 
+                        #gets the players score and shows the leaderboard
                         recordScore(player, outcome="win", turns=turns)
                         showLeaderboard(10)
                         return
@@ -434,17 +436,21 @@ def playGame(player, locations):
 
                     continue
 
+                #if you flee combat it takes you back to the previous location if there is one
                 if outcome["result"] == "fled":
                     if previousLocation is not None:
                         print(f"You flee back to {previousLocation}!")
                         player.location = previousLocation
 
+                        #then clears the last location
                         lastLocation = None
                         fled = True
+                        #if there is nowhere to flee it shows a message
                     else:
                         print("You have nowhere to flee to!")
                     break
 
+                #if combat results in a death it shows a game over and the scoreboard
                 if outcome["result"] == "dead":
                     print("Game Over!")
                     recordScore(player, outcome="dead", turns=turns)
@@ -454,6 +460,7 @@ def playGame(player, locations):
             if fled:
                 continue
 
+        #if you enter a new location and there's no mobs it awards the items for the area
         if enteredNewLocation:
             noMobs = (not current.get("mobs")) or (len(current.get("mobs", [])) == 0)
             if noMobs:
@@ -478,12 +485,14 @@ def playGame(player, locations):
                 print("Your inventory is empty")
             continue
 
+        #if use is entered it lets the player select and item to use
         if cmd == "use":
             itemName = chooseItem(player)
             if itemName:
                 useItem(player, itemName)
             continue
 
+        #if you quit it saves your game and records your score before showing the leaderboard and displaying appropriate messages
         if cmd == "quit":
             print("Thanks for playing!")
             print("Saving game...")
