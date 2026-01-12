@@ -329,7 +329,7 @@ def playGame(player, locations):
     lastLocation = None
     previousLocation = None
 
-    #sets the avaliable commands
+    #sets the available commands
     commands = ["north", "south", "east", "west", "inventory", "use", "help", "quit"]
 
     while True:
@@ -422,7 +422,7 @@ def playGame(player, locations):
                     if defeated == bossName:
                         print("\n=== VICTORY ===")
                         print("The Crazed Warlock falls... The castle goes silent at long last.")
-                        showAscii("win")
+                        showAscii("Win")
                         pause()
 
                         #gets the players score and shows the leaderboard

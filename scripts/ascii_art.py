@@ -17,6 +17,7 @@ asciiMap = {
     "Castle Treasury" : "castle_treasury.txt",
     "Castle, First Floor" : "castle_first_floor.txt",
     "Game Over" : "game_over.txt",
+    "Win" : "win.txt",
 }
 
 #shows the corresponding ascii, otherwise does nothing

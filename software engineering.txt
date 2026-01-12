@@ -1,0 +1,80 @@
+Methodologies:
+==============
+For our project we mostly followed an iterative / incremental agile methodology, sometimes similar to a Scrum methodology.
+The game was built in small increments, adding a new feature and then testing the feature to see if it worked and if it didn't
+we fixed it and refined. The features were expanded upon in each iteration as new features were built on top of it.
+
+This allowed us to identify problems before they became bigger issues and reduced the overall risk of larger errors. Having
+all the features working properly without bugs meant that we could expand upon these without having to think about if it would
+affect the rest of the project.
+
+We chose to follow this methodology because it fit our schedule the best and allowed for good time management as we could
+get on a call and worked on one feature until it worked, this mean we didn't have to come back to an unfinished implementation.
+
+
+
+Empathy Map:
+============
+
+Protagonist says:
+------------------
+"..."
+
+Protagonist thinks:
+------------------
+"I never should have abandoned my kingdom for ruin"
+"I will exact my vengeance upon that traitorous warlock"
+"I can only wish for the groundskeeper's safety after all these years"
+
+Protagonist does:
+------------------
+Seek revenge on those who trespass against their homeland
+Collects artefacts of their lost kingdom (the runes)
+Defends themselves from the oncoming undead and creatures
+
+Protagonist feels:
+------------------
+Regret for the state their kingdom is in upon return
+Mourning the loss of the groundskeeper who was controlled by the warlock
+Despises the warlock with such a burning rage that it's capable of melting glaciers
+
+
+
+Persona: ARSENE!
+========
+
+Beginning in a field distant to the castle, the descendant of the kingdoms true rulers arrives. conquering the warlock and his forces to reclaim
+their home and their right to the throne as monarch of 'Leoporis'
+
+Was close with the groundskeeper before the warlock took over, having a fatherly bond towards the knight who defended and taught
+the protagonist the ways of the sword. After the successful escape of the heir the warlock captured the groundskeeper but through his strength thought
+of a more useful. Upon finding his body controlled and contorted by the warlock in the castle grounds the protagonist
+had no choice but to free him from his mortal constraints. Carrying the regret of being powerless to save him through the battle with the warlock,
+only fuelling their rage towards the fake monarch more.
+
+
+
+MoSCoW:
+========
+
+Must have:
+----------
+Combat system
+Map and travel system
+
+Should have:
+------------
+Scoreboard feature
+Items and powerups
+ASCII art
+
+Could have:
+-----------
+Global leaderboard
+Multiplayer functionality
+Saving and loading
+
+Won't have:
+-----------
+Procedural generation
+Class special abilities

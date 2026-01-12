@@ -66,7 +66,11 @@ locations = {
     },
 
     "Castle, First Floor": {
-        "description" : "The room stand before you, a wide expanse of cracked stone bricks with vines and wear showing through, the air is filled with a still dust and the only light in the room comes from a series of cracked stained glass windows illuminating the throne in the middle and the figure that sits upon it . . .",
+        "description" : (
+            "The room stand before you, a wide expanse of cracked stone bricks with vines and wear showing through,\n "
+            "the air is filled with a still dust and the only light in the room comes from a series of cracked stained glass windows\n "
+            "illuminating the throne in the middle and the figure that sits upon it . . ."
+        ),
         "south": "Castle, Ground Floor",
         "items": [
             "Trophy",
@@ -92,7 +96,10 @@ locations = {
     },
 
     "Castle Treasury": {
-        "description": "A stone chamber reinforced with iron bars and heavy doors. Several chests remain sealed, their contents unknown, and the air hums with the promise of untouched treasure",
+        "description": (
+            "A stone chamber reinforced with iron bars and heavy doors. Several chests remain sealed,\n "
+            "their contents unknown, and the air hums with the promise of untouched treasure"
+        ),
         "west": "Castle, Ground Floor",
         "items": [
             "Rune of Enhancement",
